@@ -1,0 +1,8 @@
+RayHelper/
+├── src/
+│   ├── main/          # Backend logic (Node.js)
+│   ├── renderer/      # Frontend UI (React.js)
+│   └── shared/        # Shared utilities
+├── public/            # Static assets
+├── docs/              # Documentation
+└── README.md          # Project overview

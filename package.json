@@ -1,0 +1,66 @@
+{
+  "name": "rayhelper",
+  "version": "1.0.0",
+  "main": "src/main/index.js",
+  "scripts": {
+    "start": "electron-forge start",
+    "make": "electron-forge make",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "package": "electron-forge package"
+  },
+  "config": {
+    "forge": {
+      "makers": [
+        {
+          "name": "@electron-forge/maker-squirrel",
+          "config": {}
+        },
+        {
+          "name": "@electron-forge/maker-zip",
+          "platforms": [
+            "darwin",
+            "linux"
+          ]
+        },
+        {
+          "name": "@electron-forge/maker-deb",
+          "config": {}
+        },
+        {
+          "name": "@electron-forge/maker-rpm",
+          "config": {}
+        }
+      ]
+    }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nashe223/RayHelper.git"
+  },
+  "keywords": [],
+  "author": "Tinashe <nash_93@icloud.com>",
+  "description": "A cross-platform troubleshooting tool inspired by Raycast.",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/nashe223/RayHelper/issues"
+  },
+  "homepage": "https://github.com/nashe223/RayHelper#readme",
+  "dependencies": {
+    "electron-squirrel-startup": "^1.0.1",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
+    "sqlite3": "^5.1.7",
+    "tailwindcss": "^4.0.14"
+  },
+  "devDependencies": {
+    "@electron-forge/cli": "^7.7.0",
+    "@electron-forge/maker-deb": "^7.7.0",
+    "@electron-forge/maker-rpm": "^7.7.0",
+    "@electron-forge/maker-squirrel": "^7.7.0",
+    "@electron-forge/maker-zip": "^7.7.0",
+    "@electron-forge/plugin-auto-unpack-natives": "^7.7.0",
+    "@electron-forge/plugin-fuses": "^7.7.0",
+    "@electron/fuses": "^1.8.0",
+    "electron": "^25.0.0"
+  }
+}

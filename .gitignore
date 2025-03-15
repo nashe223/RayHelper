@@ -1,3 +1,8 @@
-"node_modules/" 
-"out/" 
-"package-lock.json" 
+# Ignore node_modules
+node_modules/
+
+# Ignore packaged app
+out/
+
+# Ignore dependency files
+package-lock.json

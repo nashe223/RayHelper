@@ -1,6 +1,7 @@
 # RayHelper
 
-A cross-platform troubleshooting tool inspired by Raycast.
+A lightweight and developer-friendly assistant for managing and debugging distributed applications.  
+RayHelper simplifies job orchestration, visualizes execution graphs, and provides a GUI and CLI for quick diagnostics — making Ray more accessible to teams at any scale.
 
 ## Features
 - System diagnostics

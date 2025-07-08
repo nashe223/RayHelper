@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AWS Certified Cloud Practitioner Practice Exam</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f5f7fa;
+        }
+        h1 {
+            color: #FF9900;
+            text-align: center;
+            border-bottom: 2px solid #FF9900;
+            padding-bottom: 10px;
+        }
+        .exam-info {
+            background-color: #232F3E;
+            color: white;
+            padding: 15px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+        }
+        .question {
+            background-color: white;
+            padding: 20px;
+            margin-bottom: 20px;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        .question h3 {
+            margin-top: 0;
+            color: #232F3E;
+        }
+        .options {
+            margin-left: 20px;
+        }
+        .option {
+            margin-bottom: 10px;
+        }
+        button {
+            background-color: #FF9900;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            margin-top: 10px;
+        }
+        button:hover {
+            background-color: #e68a00;
+        }
+        .explanation {
+            display: none;
+            background-color: #f1f1f1;
+            padding: 15px;
+            border-left: 4px solid #FF9900;
+            margin-top: 15px;
+            border-radius: 0 5px 5px 0;
+        }
+        .correct {
+            color: green;
+            font-weight: bold;
+        }
+        .incorrect {
+            color: red;
+            font-weight: bold;
+        }
+        .progress-bar {
+            width: 100%;
+            background-color: #e0e0e0;
+            border-radius: 5px;
+            margin-bottom: 20px;
+        }
+        .progress {
+            height: 20px;
+            background-color: #FF9900;
+            border-radius: 5px;
+            width: 0%;
+            transition: width 0.3s;
+        }
+        .results {
+            display: none;
+            background-color: white;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            margin-top: 20px;
+        }
+        .navigation {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 20px;
+        }
+        .checkbox-option {
+            margin-bottom: 8px;
+        }
+    </style>
+</head>
+<body>
+    <h1>AWS Certified Cloud Practitioner Practice Exam</h1>
+    
+    <div class="exam-info">
+        <p><strong>Time:</strong> 60 minutes | <strong>Questions:</strong> 30</p>
+        <p><strong>Instructions:</strong></p>
+        <ul>
+            <li>Select the best answer for each question</li>
+            <li>Click "Submit" to check your answer and see explanations</li>
+            <li>Use "Next" and "Previous" to navigate between questions</li>
+            <li>Your score will be calculated at the end</li>
+        </ul>
+    </div>
+    
+    <div class="progress-bar">
+        <div class="progress" id="progress"></div>
+    </div>
+    
+    <div id="question-container">
+        <!-- Questions will be loaded here by JavaScript -->
+    </div>
+    
+    <div class="navigation">
+        <button id="prev-btn" disabled>Previous</button>
+        <button id="submit-btn">Submit</button>
+        <button id="next-btn">Next</button>
+    </div>
+    
+    <div class="results" id="results">
+        <h2>Exam Results</h2>
+        <p id="score"></p>
+        <p id="feedback"></p>
+        <button id="restart-btn">Restart Exam</button>
+    </div>
+    
+    <script>
+        // Exam questions data
+        const questions = [
+            {
+                question: "AWS allows users to manage their resources using a web-based user interface. What is the name of this interface?",
+                options: [
+                    "A. AWS CLI",
+                    "B. AWS API",
+                    "C. AWS SDK",
+                    "D. AWS Management Console"
+                ],
+                correctAnswer: "D",
+                explanation: "The AWS Management Console is the web-based UI for managing AWS resources. The CLI, API, and SDK are programmatic tools."
+            },
+            {
+                question: "Which of the following is an example of horizontal scaling in the AWS Cloud?",
+                options: [
+                    "A. Replacing an existing EC2 instance with a larger, more powerful one.",
+                    "B. Increasing the compute capacity of a single EC2 instance to address the growing demands of an application.",
+                    "C. Adding more RAM capacity to an EC2 instance.",
+                    "D. Adding more EC2 instances of the same size to handle an increase in traffic."
+                ],
+                correctAnswer: "D",
+                explanation: "Horizontal scaling = adding more instances (e.g., auto-scaling). Vertical scaling = upgrading a single instance (e.g., from t2.micro to t2.large)."
+            },
+            {
+                question: "You have noticed that several critical Amazon EC2 instances have been terminated. Which of the following AWS services would help you determine who took this action?",
+                options: [
+                    "A. Amazon Inspector",
+                    "B. AWS CloudTrail",
+                    "C. AWS Trusted Advisor",
+                    "D. EC2 Instance Usage Report"
+                ],
+                correctAnswer: "B",
+                explanation: "AWS CloudTrail logs API calls (e.g., who terminated instances). Inspector checks security vulnerabilities, Trusted Advisor gives optimization tips."
+            },
+            {
+                question: "Which of the below options are related to the reliability of AWS? (Choose TWO)",
+                options: [
+                    "A. Applying the principle of least privilege to all AWS resources.",
+                    "B. Automatically provisioning new resources to meet demand.",
+                    "C. All AWS services are considered Global Services, and this design helps customers serve their international users.",
+                    "D. Providing compensation to customers if issues occur.",
+                    "E. Ability to recover quickly from failures."
+                ],
+                correctAnswer: ["B", "E"],
+                explanation: "Reliability includes auto-scaling (B) and failure recovery (E). A is security, C is global infrastructure, D is not a reliability feature."
+            },
+            {
+                question: "Which statement is true regarding the AWS Shared Responsibility Model?",
+                options: [
+                    "A. Responsibilities vary depending on the services used.",
+                    "B. Security of the IaaS services is the responsibility of AWS.",
+                    "C. Patching the guest OS is always the responsibility of AWS.",
+                    "D. Security of the managed services is the responsibility of the customer."
+                ],
+                correctAnswer: "A",
+                explanation: "The Shared Responsibility Model divides security tasks between AWS and the customer based on the service type (IaaS, PaaS, SaaS)."
+            }
+        ];
+
+        // DOM elements
+        const questionContainer = document.getElementById('question-container');
+        const prevBtn = document.getElementById('prev-btn');
+        const nextBtn = document.getElementById('next-btn');
+        const submitBtn = document.getElementById('submit-btn');
+        const resultsDiv = document.getElementById('results');
+        const scoreDisplay = document.getElementById('score');
+        const feedbackDisplay = document.getElementById('feedback');
+        const restartBtn = document.getElementById('restart-btn');
+        const progressBar = document.getElementById('progress');
+
+        // Exam state
+        let currentQuestion = 0;
+        let userAnswers = Array(questions.length).fill(null);
+        let score = 0;
+
+        // Initialize the exam
+        function loadQuestion() {
+            const question = questions[currentQuestion];
+            
+            // Update progress bar
+            progressBar.style.width = `${((currentQuestion + 1) / questions.length) * 100}%`;
+            
+            // Build question HTML
+            let html = `<div class="question">
+                <h3>Question ${currentQuestion + 1} of ${questions.length}</h3>
+                <p>${question.question}</p>
+                <div class="options">`;
+            
+            // Add options (radio buttons for single answer, checkboxes for multiple)
+            if (Array.isArray(question.correctAnswer)) {
+                // Multiple choice question
+                question.options.forEach((option, index) => {
+                    const optionLetter = option.substring(0, 1);
+                    html += `<div class="checkbox-option">
+                        <input type="checkbox" id="option${index}" name="answer" value="${optionLetter}">
+                        <label for="option${index}">${option}</label>
+                    </div>`;
+                });
+            } else {
+                // Single choice question
+                question.options.forEach((option, index) => {
+                    const optionLetter = option.substring(0, 1);
+                    html += `<div class="option">
+                        <input type="radio" id="option${index}" name="answer" value="${optionLetter}">
+                        <label for="option${index}">${option}</label>
+                    </div>`;
+                });
+            }
+            
+            // Add explanation div (hidden until submission)
+            html += `</div>
+                <div class="explanation" id="explanation">
+                    <p><strong>Explanation:</strong> ${question.explanation}</p>
+                </div>
+            </div>`;
+            
+            questionContainer.innerHTML = html;
+            
+            // Restore previous answer if exists
+            if (userAnswers[currentQuestion] !== null) {
+                if (Array.isArray(question.correctAnswer)) {
+                    // For multiple choice questions
+                    userAnswers[currentQuestion].forEach(answer => {
+                        document.querySelector(`input[value="${answer}"]`).checked = true;
+                    });
+                } else {
+                    // For single choice questions
+                    document.querySelector(`input[value="${userAnswers[currentQuestion]}"]`).checked = true;
+                }
+            }
+            
+            // Update navigation buttons
+            prevBtn.disabled = currentQuestion === 0;
+            nextBtn.disabled = currentQuestion === questions.length - 1;
+            submitBtn.style.display = userAnswers[currentQuestion] === null ? 'block' : 'none';
+        }
+
+        // Check answer and show explanation
+        function checkAnswer() {
+            const question = questions[currentQuestion];
+            let selectedOptions = [];
+            
+            if (Array.isArray(question.correctAnswer)) {
+                // Multiple choice question
+                const checkboxes = document.querySelectorAll('input[type="checkbox"]:checked');
+                checkboxes.forEach(checkbox => {
+                    selectedOptions.push(checkbox.value);
+                });
+                
+                // Store answer
+                userAnswers[currentQuestion] = selectedOptions;
+                
+                // Check if correct
+                const isCorrect = selectedOptions.length === question.correctAnswer.length && 
+                                 question.correctAnswer.every(ans => selectedOptions.includes(ans));
+                
+                if (isCorrect) {
+                    score++;
+                }
+            } else {
+                // Single choice question
+                const selectedOption = document.querySelector('input[name="answer"]:checked');
+                
+                if (selectedOption) {
+                    // Store answer
+                    userAnswers[currentQuestion] = selectedOption.value;
+                    
+                    // Check if correct
+                    if (selectedOption.value === question.correctAnswer) {
+                        score++;
+                    }
+                }
+            }
+            
+            // Show explanation
+            document.getElementById('explanation').style.display = 'block';
+            submitBtn.style.display = 'none';
+        }
+
+        // Show final results
+        function showResults() {
+            questionContainer.style.display = 'none';
+            document.querySelector('.navigation').style.display = 'none';
+            resultsDiv.style.display = 'block';
+            
+            const percentage = Math.round((score / questions.length) * 100);
+            scoreDisplay.innerHTML = `Your score: <strong>${score} out of ${questions.length} (${percentage}%)</strong>`;
+            
+            if (percentage >= 80) {
+                feedbackDisplay.innerHTML = "Excellent! You're well prepared for the AWS exam.";
+            } else if (percentage >= 60) {
+                feedbackDisplay.innerHTML = "Good job! Review the questions you missed to improve your score.";
+            } else {
+                feedbackDisplay.innerHTML = "Keep studying! Focus on AWS fundamentals and try again.";
+            }
+        }
+
+        // Event listeners
+        prevBtn.addEventListener('click', () => {
+            currentQuestion--;
+            loadQuestion();
+        });
+
+        nextBtn.addEventListener('click', () => {
+            currentQuestion++;
+            loadQuestion();
+        });
+
+        submitBtn.addEventListener('click', () => {
+            checkAnswer();
+            
+            // If this was the last question, show results
+            if (currentQuestion === questions.length - 1) {
+                showResults();
+            }
+        });
+
+        restartBtn.addEventListener('click', () => {
+            // Reset exam state
+            currentQuestion = 0;
+            userAnswers = Array(questions.length).fill(null);
+            score = 0;
+            
+            // Show first question
+            questionContainer.style.display = 'block';
+            document.querySelector('.navigation').style.display = 'flex';
+            resultsDiv.style.display = 'none';
+            loadQuestion();
+        });
+
+        // Start the exam
+        loadQuestion();
+    </script>
+</body>
+</html>

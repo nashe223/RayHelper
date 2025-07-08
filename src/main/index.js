@@ -1,30 +1,46 @@
-const { app, BrowserWindow } = require("electron");
-const path = require("path");
+const { app, BrowserWindow, ipcMain } = require('electron');
+const path = require('path');
+const { exec } = require('child_process'); // For running system commands
 
 function createWindow() {
-  const win = new BrowserWindow({
+  const mainWindow = new BrowserWindow({
     width: 800,
     height: 600,
     webPreferences: {
       nodeIntegration: true,
-      contextIsolation: false,
+      contextIsolation: false, // Required for ipcRenderer to work
     },
   });
 
   // Load the React app
-  win.loadFile(path.join(__dirname, "../renderer/index.html"));
+  mainWindow.loadFile(path.join(__dirname, '../renderer/index.html'));
 }
 
 app.whenReady().then(() => {
   createWindow();
 
-  // Open a window if none are open (macOS)
-  app.on("activate", () => {
-    if (BrowserWindow.getAllWindows().length === 0) createWindow();
+  app.on('activate', () => {
+    if (BrowserWindow.getAllWindows().length === 0) {
+      createWindow();
+    }
   });
 });
 
-// Quit the app when all windows are closed (Windows/Linux)
-app.on("window-all-closed", () => {
-  if (process.platform !== "darwin") app.quit();
+app.on('window-all-closed', () => {
+  if (process.platform !== 'darwin') {
+    app.quit();
+  }
+});
+
+// Handle the 'run-diagnostics' request from the renderer process
+ipcMain.handle('run-diagnostics', async (event, command) => {
+  return new Promise((resolve, reject) => {
+    exec(command, (error, stdout, stderr) => {
+      if (error) {
+        reject(new Error(stderr));
+      } else {
+        resolve(stdout);
+      }
+    });
+  });
 });
